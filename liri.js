@@ -33,7 +33,10 @@ switch (command) {
             if(err) {
                 console.log("Something went wrong with spotify: " + err);
             }
-            console.log(JSON.stringify(data.tracks.items[0].album.artists, null, 2));
+            console.log(JSON.stringify(data.tracks.items[0].artists[0].name, null, 2));  //Artist
+            console.log(JSON.stringify(data.tracks.items[0].name, null, 2));             // Song
+            console.log(JSON.stringify(data.tracks.items[0].album.name, null, 2));       // Album
+            console.log(JSON.stringify(data.tracks.items[0].external_urls.spotify, null, 2));  // Track URL
         });
         
         break;
