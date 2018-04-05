@@ -1,5 +1,10 @@
+
+// spotify/twitter keys
 require("dotenv").config();
 var keys = require("./key.js");
+
+// request used for OMDB API
+var request = require('request');
 
 // twitter setup
 var Twitter = require('twitter');
@@ -11,7 +16,14 @@ var spotify = new Spotify(keys.spotify);
 
 // Grab ref to 3rd & 4th args (to be used in switch control below)
 var command = process.argv[2];
-var command2 = process.argv[3];
+var command2 = "";
+
+for (var i = 3; i < process.argv.length; i++) {
+    command2 += process.argv[i]
+    if (i < process.argv.length -1) {
+        command2 += " ";
+    }
+}
 
 switch (command) {
     case "my-tweets":
@@ -29,19 +41,44 @@ switch (command) {
         // console.log(JSON.stringify(client, null, 2));
         break;
     case "spotify-this-song":
+        var responseMessage = "";  
+
+        if (command2 === "") {
+            command2 = "The Sign";
+            responseMessage = "Your didn't include a song, so here's the results for 'The Sign' by Ace of Base";
+        } else {
+            responseMessage = "Your search for '" + command2 + "' returned the following...";
+        }
+
         spotify.search ({ type: "track", query: command2, limit: 1 }, function(err, data) {
             if(err) {
-                console.log("Something went wrong with spotify: " + err);
+                console.log("Spotify Error: " + err);
             }
-            console.log(JSON.stringify(data.tracks.items[0].artists[0].name, null, 2));  //Artist
-            console.log(JSON.stringify(data.tracks.items[0].name, null, 2));             // Song
-            console.log(JSON.stringify(data.tracks.items[0].album.name, null, 2));       // Album
-            console.log(JSON.stringify(data.tracks.items[0].external_urls.spotify, null, 2));  // Track URL
+            console.log("---------------------------------");
+            console.log(responseMessage);
+            console.log("Artist: " + data.tracks.items[0].artists[0].name);  //Artist
+            console.log("Song: " + data.tracks.items[0].name);             // Song
+            console.log("Album: " + data.tracks.items[0].album.name);       // Album
+            console.log("Preview URL: " + data.tracks.items[0].external_urls.spotify);  // Track URL
+            console.log("---------------------------------");
         });
         
         break;
     case "movie-this":
-        // 
+        
+        if (command2 === "") {
+            command2 = "Mr. Nobody";
+        }
+        
+        var movieQueryURL = "http://www.omdbapi.com/?t=" + command2 + "&y=&plot=short&apikey=trilogy";
+        
+        request(movieQueryURL, (err, resp, body) => {
+            if (!err && resp.statusCode === 200) {
+                console.log(JSON.stringify(resp, null, 2));
+            } else {
+                console.log("OMDB Error: " + err);
+            }
+        });
         break;
     case "do-what-it-says":
         // 
