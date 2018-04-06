@@ -72,9 +72,15 @@ switch (command) {
 
     case "movie-this":
         
+        // Begin building response string
+        responseMessage += "---------------------------------\n";
+
         // if user doesn't put in movie, make it "Mr. Nobody"
         if (command2 === "") {
             command2 = "Mr. Nobody";
+            responseMessage += "Your didn't include a movie, so here's the results for 'Mr. Nobody'...\n";
+        } else {
+            responseMessage += `Your movie search for '${command2}' returned the following...\n`
         }
         
         // build query string for omdbapi
@@ -83,9 +89,7 @@ switch (command) {
         // run query using 'request' module
         request(movieQueryURL, (err, resp, body) => {
             if (!err && resp.statusCode === 200) {
-                // build response string
-                responseMessage += "---------------------------------\n";
-                responseMessage += `Your movie search for '${command2}' returned the following...\n`
+                // continue building response string
                 responseMessage += `Movie Title: ${JSON.parse(resp.body).Title}\n`;
                 responseMessage += `Release Year: ${JSON.parse(resp.body).Year}\n`;
                 responseMessage += `IMDB Rating: ${JSON.parse(resp.body).imdbRating}\n`;
@@ -110,8 +114,11 @@ switch (command) {
     case "do-what-it-says":
         // use fs.readFile to pull text from random.txt
         fs.readFile("random.txt", (err, data) => {
-            // call spotifyThis using text from random.txt
-            spotifyThis(`From random.txt, your spotify search for ${data} returned the following...`, data);
+            // build response string
+            responseMessage += "---------------------------------\n";
+            responseMessage += `From random.txt, your spotify search for ${data} returned the following...\n`;
+            // call spotifyThis using 'data' from random.txt
+            spotifyThis(responseMessage, data);
         })
         break;
 

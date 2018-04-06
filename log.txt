@@ -66,13 +66,13 @@ Song: Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) - Remix
 Album: Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix Version]
 Preview URL: https://open.spotify.com/track/7t2bFihaDvhIrd2gn2CWJO
 ------------------------------------------------------------------
-Your spotify search for the track 'ice ice baby' returned the following...
+Your spotify search for the track 'Ice Ice Baby' returned the following...
 Artist: Vanilla Ice
 Song: Ice Ice Baby
 Album: Vanilla Ice Is Back! - Hip Hop Classics
 Preview URL: https://open.spotify.com/track/3XVozq1aeqsJwpXrEZrDJ9
 ------------------------------------------------------------------
-Your movie search for 'Mr. Nobody' returned the following...
+Your didn't include a movie, so here's the results for 'Mr. Nobody'...
 Movie Title: Mr. Nobody
 Release Year: 2009
 IMDB Rating: 7.9
@@ -82,7 +82,7 @@ Languages Available: English, Mohawk
 Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.
 Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham
 ------------------------------------------------------------------
-Your movie search for 'Goonies' returned the following...
+Your movie search for 'The Goonies' returned the following...
 Movie Title: The Goonies
 Release Year: 1985
 IMDB Rating: 7.8
@@ -91,7 +91,9 @@ Country of Production: USA
 Languages Available: English, Spanish, Cantonese, Italian
 Plot: In order to save their home from foreclosure, a group of misfits set out to find a pirate's ancient valuable treasure.
 Actors: Sean Astin, Josh Brolin, Jeff Cohen, Corey Feldman
----------------------------------From random.txt, your spotify search for "I Want it That Way" returned the following...Artist: Backstreet Boys
+------------------------------------------------------------------
+From random.txt, your spotify search for "I Want it That Way" returned the following...
+Artist: Backstreet Boys
 Song: I Want It That Way
 Album: The Hits--Chapter One
 Preview URL: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
