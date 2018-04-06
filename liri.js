@@ -14,10 +14,15 @@ var client = new Twitter(keys.twitter);
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
-// Grab ref to 3rd & 4th args (to be used in switch control below)
+// fs setup - module included with node.js
+var fs = require('fs');
+
+// Grab ref to 3rd arg (to be used in switch control below)
 var command = process.argv[2];
 var command2 = "";
+var responseMessage = "";
 
+// Build string for last argument (arg doesn't require quotes)
 for (var i = 3; i < process.argv.length; i++) {
     command2 += process.argv[i]
     if (i < process.argv.length -1) {
@@ -25,64 +30,123 @@ for (var i = 3; i < process.argv.length; i++) {
     }
 }
 
+// Switch statement on command presented
 switch (command) {
+
     case "my-tweets":
-        var params = {screen_name: command2};
-        client.get('statuses/user_timeline', params, function(error, tweets, response) {
+
+        // Pulls last 20 tweets of user submitted screen_name and builds response string
+        client.get('statuses/user_timeline', {screen_name: command2}, (error, tweets, response) => {
             if (!error) {
+                responseMessage += `These are the last 20 tweets for ${command2}...\n`;
                 for (i = 0; i < 20; i++) {
-                    console.log("-----------------------------");
-                    console.log(tweets[i].created_at + ":");
-                    console.log(command2 + " said: " + '"' + tweets[i].text + '"');
-                    console.log("-----------------------------");
+                    responseMessage += "-----------------------------\n";
+                    responseMessage += tweets[i].created_at + ": \n";
+                    responseMessage += command2 + " said: " + '"' + tweets[i].text + '"' + "\n";
                 }
+                responseMessage += "-----------------------------";
+
+                // call logData to log string to log.txt
+                logData(responseMessage);
+                // call displayData to console.log string
+                displayData(responseMessage);
             }
         });
-        // console.log(JSON.stringify(client, null, 2));
         break;
-    case "spotify-this-song":
-        var responseMessage = "";  
 
+    case "spotify-this-song":
+
+        // begin building response string
+        responseMessage += "---------------------------------\n";
+        // if user doesn't put in a track, make it "The Sign"
         if (command2 === "") {
             command2 = "The Sign";
-            responseMessage = "Your didn't include a song, so here's the results for 'The Sign' by Ace of Base";
+            responseMessage += "Your didn't include a song, so here's the results for 'The Sign' possibly by Ace of Base (or not)...\n";
         } else {
-            responseMessage = "Your search for '" + command2 + "' returned the following...";
+            responseMessage += "Your spotify search for the track '" + command2 + "' returned the following...\n";
         }
 
-        spotify.search ({ type: "track", query: command2, limit: 1 }, function(err, data) {
-            if(err) {
-                console.log("Spotify Error: " + err);
-            }
-            console.log("---------------------------------");
-            console.log(responseMessage);
-            console.log("Artist: " + data.tracks.items[0].artists[0].name);  //Artist
-            console.log("Song: " + data.tracks.items[0].name);             // Song
-            console.log("Album: " + data.tracks.items[0].album.name);       // Album
-            console.log("Preview URL: " + data.tracks.items[0].external_urls.spotify);  // Track URL
-            console.log("---------------------------------");
-        });
-        
+        // call Spotify this to handle the spotify query and continue building response string
+        spotifyThis(responseMessage, command2);
         break;
+
     case "movie-this":
         
+        // if user doesn't put in movie, make it "Mr. Nobody"
         if (command2 === "") {
             command2 = "Mr. Nobody";
         }
         
+        // build query string for omdbapi
         var movieQueryURL = "http://www.omdbapi.com/?t=" + command2 + "&y=&plot=short&apikey=trilogy";
         
+        // run query using 'request' module
         request(movieQueryURL, (err, resp, body) => {
             if (!err && resp.statusCode === 200) {
-                console.log(JSON.stringify(resp, null, 2));
+                // build response string
+                responseMessage += "---------------------------------\n";
+                responseMessage += `Your movie search for '${command2}' returned the following...\n`
+                responseMessage += `Movie Title: ${JSON.parse(resp.body).Title}\n`;
+                responseMessage += `Release Year: ${JSON.parse(resp.body).Year}\n`;
+                responseMessage += `IMDB Rating: ${JSON.parse(resp.body).imdbRating}\n`;
+                responseMessage += `Rotten Tomatoes Rating: ${JSON.parse(resp.body).Ratings[1].Value}\n`;
+                responseMessage += `Country of Production: ${JSON.parse(resp.body).Country}\n`;
+                responseMessage += `Languages Available: ${JSON.parse(resp.body).Language}\n`;
+                responseMessage += `Plot: ${JSON.parse(resp.body).Plot}\n`;
+                responseMessage += `Actors: ${JSON.parse(resp.body).Actors}\n`;
+                responseMessage += "---------------------------------";
+
+                // call logData to log string to log.txt
+                logData(responseMessage);
+                // call displayData to console.log string
+                displayData(responseMessage);
+
             } else {
                 console.log("OMDB Error: " + err);
             }
         });
         break;
+    
     case "do-what-it-says":
-        // 
+        // use fs.readFile to pull text from random.txt
+        fs.readFile("random.txt", (err, data) => {
+            // call spotifyThis using text from random.txt
+            spotifyThis(`From random.txt, your spotify search for ${data} returned the following...`, data);
+        })
         break;
+
+        // this should never run
     default:
-        console.log("There has been an input error!");
+        console.log("You broke the internet.  Thanks Obama!");
+}
+
+// FUNCTION to run spotify searches and build response string
+function spotifyThis (responseMessage, command2) {
+    spotify.search ({ type: "track", query: command2, limit: 10 }, (err, data) => {
+        if(err) {
+            console.log("Spotify Error: " + err);
+        }
+        responseMessage += "Artist: " + data.tracks.items[0].artists[0].name + "\n";  
+        responseMessage += "Song: " + data.tracks.items[0].name + "\n";             
+        responseMessage += "Album: " + data.tracks.items[0].album.name + "\n";       
+        responseMessage += "Preview URL: " + data.tracks.items[0].external_urls.spotify + "\n";  
+        responseMessage += "---------------------------------";
+
+        displayData(responseMessage);
+        logData(responseMessage);
+    });
+}
+
+// FUNCTION to log all queries to log.txt
+function logData (str) {
+    fs.appendFile("log.txt", str, "utf8", (err) => {
+        if (err) {
+            console.log("Error: " + err);
+        }
+    })
+}
+
+// FUNCTION to console log all queries
+function displayData (str) {
+    console.log(str);
 }
