@@ -61,7 +61,7 @@ switch (command) {
         // if user doesn't put in a track, make it "The Sign"
         if (command2 === "") {
             command2 = "The Sign";
-            responseMessage += "Your didn't include a song, so here's the results for 'The Sign' possibly by Ace of Base (or not)...\n";
+            responseMessage += "Your search didn't include a song, so here's the results for 'The Sign' possibly by Ace of Base (or not)...\n";
         } else {
             responseMessage += "Your spotify search for the track '" + command2 + "' returned the following...\n";
         }
@@ -78,7 +78,7 @@ switch (command) {
         // if user doesn't put in movie, make it "Mr. Nobody"
         if (command2 === "") {
             command2 = "Mr. Nobody";
-            responseMessage += "Your didn't include a movie, so here's the results for 'Mr. Nobody'...\n";
+            responseMessage += "Your search didn't include a movie, so here's the results for 'Mr. Nobody'...\n";
         } else {
             responseMessage += `Your movie search for '${command2}' returned the following...\n`
         }
