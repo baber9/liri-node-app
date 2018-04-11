@@ -97,4 +97,22 @@ Artist: Backstreet Boys
 Song: I Want It That Way
 Album: The Hits--Chapter One
 Preview URL: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+------------------------------------------------------------------
+Your spotify search for the track 'ice ice baby' returned the following...
+Artist: Vanilla Ice
+Song: Ice Ice Baby
+Album: Vanilla Ice Is Back! - Hip Hop Classics
+Preview URL: https://open.spotify.com/track/3XVozq1aeqsJwpXrEZrDJ9
+------------------------------------------------------------------
+Your spotify search for the track 'the sign' returned the following...
+Artist: Ty Dolla $ign
+Song: Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) - Remix
+Album: Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix Version]
+Preview URL: https://open.spotify.com/track/7t2bFihaDvhIrd2gn2CWJO
+------------------------------------------------------------------
+Your search didn't include a song, so here's the results for 'The Sign' possibly by Ace of Base (or not)...
+Artist: Ace of Base
+Song: The Sign
+Album: The Sign (US Album) [Remastered]
+Preview URL: https://open.spotify.com/track/0hrBpAOgrt8RXigk83LLNE
 ---------------------------------

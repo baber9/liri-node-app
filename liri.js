@@ -60,8 +60,8 @@ switch (command) {
         responseMessage += "---------------------------------\n";
         // if user doesn't put in a track, make it "The Sign"
         if (command2 === "") {
-            command2 = "The Sign";
-            responseMessage += "Your search didn't include a song, so here's the results for 'The Sign' possibly by Ace of Base (or not)...\n";
+            command2 = "The Sign Ace of Base";
+            responseMessage += "Your search didn't include a song, so here's the results for 'The Sign' by Ace of Base...\n";
         } else {
             responseMessage += "Your spotify search for the track '" + command2 + "' returned the following...\n";
         }
